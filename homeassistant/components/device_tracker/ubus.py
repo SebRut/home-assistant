@@ -13,7 +13,7 @@ import voluptuous as vol
 
 from homeassistant.components.device_tracker import (
     DOMAIN, PLATFORM_SCHEMA, DeviceScanner)
-from homeassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
+from homeassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME, CONF_VERIFY_SSL
 from homeassistant.exceptions import HomeAssistantError
 import homeassistant.helpers.config_validation as cv
 
@@ -33,11 +33,14 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_USERNAME): cv.string,
     vol.Optional(CONF_DHCP_SOFTWARE, default=DEFAULT_DHCP_SOFTWARE):
         vol.In(DHCP_SOFTWARES),
+    vol.Optional(CONF_VERIFY_SSL, default=True): cv.boolean,
 })
 
+verify_ssl = True
 
 def get_scanner(hass, config):
     """Validate the configuration and return an ubus scanner."""
+    verify_ssl = config(CONF_VERIFY_SSL)
     dhcp_sw = config[DOMAIN][CONF_DHCP_SOFTWARE]
     if dhcp_sw == 'dnsmasq':
         scanner = DnsmasqUbusDeviceScanner(config[DOMAIN])
@@ -205,7 +208,7 @@ def _req_json_rpc(url, session_id, rpcmethod, subsystem, method, **params):
                                   params]})
 
     try:
-        res = requests.post(url, data=data, timeout=5)
+        res = requests.post(url, data=data, timeout=5, verify=verify_ssl)
 
     except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
         return
