@@ -1,0 +1,12 @@
+{
+    "domain": "grocy",
+    "name": "Grocy",
+    "documentation": "https://www.home-assistant.io/components/grocy",
+    "dependencies": [],
+    "codeowners": [
+        "SebRut"
+    ],
+    "requirements": [
+        "pygrocy==0.1.0"
+    ]
+}
