@@ -18,7 +18,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 def setup_platform(hass, config, add_entities, discovery_info=None):
     from pygrocy import Grocy
 
-    api_url = config[(CONF_URL]
+    api_url = config[CONF_URL]
     password = config[CONF_API_KEY]
 
     _LOGGER.info("Trying to set up grocy client...")
