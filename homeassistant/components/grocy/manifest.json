@@ -7,6 +7,6 @@
         "SebRut"
     ],
     "requirements": [
-        "pygrocy==0.1.0"
+        "pygrocy==0.3.0"
     ]
 }
